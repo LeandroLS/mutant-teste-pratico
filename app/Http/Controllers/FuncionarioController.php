@@ -13,7 +13,7 @@ class FuncionarioController extends Controller
     public function show($id){
         $funcionario = Funcionario::find($id);
         if(!$funcionario){
-            return response('Funcionário não encontrado.', 404);
+            return response()->json('Funcionário não encontrado.', 404);
         } else {
             return $funcionario;
         }
@@ -22,9 +22,9 @@ class FuncionarioController extends Controller
     public function store(Request $request){
         try {
             Funcionario::create($request->all());
-            return response('Funcionário salvo.', 201);
+            return response()->json("Funcionário salvo", 201);
         } catch (\Throwable $th) {
-            return response('Não foi possível criar o funcionário.', 400);
+            return response()->json('Não foi possível criar o funcionário.', 400);
         }
     }
 
@@ -32,19 +32,19 @@ class FuncionarioController extends Controller
         try {
             $funcionario = Funcionario::find($id);
             $funcionario->update($request->all());
-            return response('Funcionário atualizado.', 200);
+            return response()->json('Funcionário atualizado.', 200);
         } catch (\Throwable $th) {
-             return response('Não foi possível atualizar o funcionário.', 400);
+             return response()->json('Não foi possível atualizar o funcionário.', 400);
         }
     }
 
     public function destroy($id){
         $funcionario = Funcionario::find($id);
         if(!$funcionario){
-            return response('Funcionário não encontrado.', 404);
+            return response()->json('Funcionário não encontrado.', 404);
         } else {
             $funcionario->delete();
-            return response('Funcionário excluído.', 200);
+            return response()->json('Funcionário excluído.', 200);
         }
     }
 }
