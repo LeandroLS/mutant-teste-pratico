@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FuncionarioController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,13 +15,10 @@ use App\Http\Controllers\FuncionarioController;
 
 Route::get('/', function () {
     try {
-        \DB::connection()
-            ->getPdo();
+        \DB::connection()->getPdo();
     } catch (Exception $e) {
         return 'Não foi possível se conectar ao banco de dados. Por favor verifique as configurações.';
     }
     return view('welcome');
 });
 
-Route::get('/funcionarios', [FuncionarioController::class, 'index'] );
-Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] );
