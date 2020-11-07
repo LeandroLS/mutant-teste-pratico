@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    try {
+        \DB::connection()
+            ->getPdo();
+    } catch (Exception $e) {
+        return 'Não foi possível se conectar ao banco de dados. Por favor verifique as configurações.';
+    }
     return view('welcome');
 });
