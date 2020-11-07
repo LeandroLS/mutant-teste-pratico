@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\FuncionarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,3 +22,6 @@ Route::get('/', function () {
     }
     return view('welcome');
 });
+
+Route::get('/funcionarios', [FuncionarioController::class, 'index'] );
+Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] );
