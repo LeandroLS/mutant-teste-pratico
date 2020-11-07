@@ -11,14 +11,25 @@ class FuncionarioController extends Controller
     }
 
     public function show($id){
-        // return $funcionario = Funcionario::find($id);
+        $funcionario = Funcionario::find($id);
+        if(!$funcionario){
+            return response('Funcionário não encontrado.', 404);
+        } else {
+            return $funcionario;
+        }
     }
 
     public function update(){
         
     }
 
-    public function destroy(){
-
+    public function destroy($id){
+        $funcionario = Funcionario::find($id);
+        if(!$funcionario){
+            return response('Funcionário não encontrado.', 404);
+        } else {
+            $funcionario->delete();
+            return response('Funcionário excluído.', 204);
+        }
     }
 }
