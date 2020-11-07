@@ -19,6 +19,15 @@ class FuncionarioController extends Controller
         }
     }
 
+    public function store(Request $request){
+        try {
+            Funcionario::create($request->all());
+            return response('Funcionário salvo.', 201);
+        } catch (\Throwable $th) {
+            return response('Não foi possível salvar o funcionário.', 400);
+        }
+    }
+
     public function update(){
         
     }
@@ -29,7 +38,7 @@ class FuncionarioController extends Controller
             return response('Funcionário não encontrado.', 404);
         } else {
             $funcionario->delete();
-            return response('Funcionário excluído.', 204);
+            return response('Funcionário excluído.', 200);
         }
     }
 }
