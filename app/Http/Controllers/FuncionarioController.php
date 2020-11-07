@@ -24,12 +24,18 @@ class FuncionarioController extends Controller
             Funcionario::create($request->all());
             return response('Funcionário salvo.', 201);
         } catch (\Throwable $th) {
-            return response('Não foi possível salvar o funcionário.', 400);
+            return response('Não foi possível criar o funcionário.', 400);
         }
     }
 
-    public function update(){
-        
+    public function update(Request $request, $id){
+        try {
+            $funcionario = Funcionario::find($id);
+            $funcionario->update($request->all());
+            return response('Funcionário atualizado.', 200);
+        } catch (\Throwable $th) {
+             return response('Não foi possível atualizar o funcionário.', 400);
+        }
     }
 
     public function destroy($id){

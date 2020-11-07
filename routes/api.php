@@ -21,3 +21,4 @@ Route::get('/funcionarios', [FuncionarioController::class, 'index'] );
 Route::post('/funcionarios', [FuncionarioController::class, 'store'] );
 Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] );
 Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy'] );
+Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'] );
