@@ -13,29 +13,47 @@
         </style>
     </head>
     <body>
-        <form action="{{ route('funcionarios.store') }}" method="post">
-            <fieldset>
-                <legend>Adicionar Funcionário</legend>
-                <label for="">Nome</label> <br>
-                <input name="nome" type="text">  <br>
-                <label for="">E-mail</label>  <br>
-                <input name="email" type="email">  <br>
-                <label for="">Data Admissao</label>  <br>
-                <input name="data_admissao" type="date">  <br>
-                <label for="">Sexo</label>  <br>
-                <select name="sexo" id="">  <br>
-                    <option value="">Selecione</option>
-                    <option value="Feminino">Feminino</option>
-                    <option value="Masculino">Masculino</option>
-                </select> <br>
-                <button>Adicionar</button>
+        <div id="UIConsumoAPI">
+            <form action="{{ route('funcionarios.store') }}" method="post">
+                <fieldset>
+                    <legend>Adicionar Funcionário</legend>
+                    <label for="">Nome</label> <br>
+                    <input name="nome" type="text">  <br>
+                    <label for="">E-mail</label>  <br>
+                    <input name="email" type="email">  <br>
+                    <label for="">Data Admissao</label>  <br>
+                    <input name="data_admissao" type="date">  <br>
+                    <label for="">Sexo</label>  <br>
+                    <select name="sexo" id="">  <br>
+                        <option value="">Selecione</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                    </select> <br>
+                    <button>Adicionar</button>
+                </fieldset>
+            </form>
+              <fieldset>
+                <legend>Lista de funcionários</legend>
+                <ol>
+                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}}<hr></li>
+                   
+                </ol>
             </fieldset>
-        </form>
-        <fieldset>
-            <legend>Lista de funcionários</legend>
-            <ol>
-                <li></li>
-            </ol>
-        </fieldset>
+        </div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        let vue = new Vue({
+            el: '#UIConsumoAPI',
+            data: {
+                funcionarios: []
+            },
+            created(){
+                fetch("{{route('funcionarios.index')}}")
+                .then((response) => {
+                    response.json().then(data => this.funcionarios = data);
+                });
+            }
+        });
+    </script>
 </html>
