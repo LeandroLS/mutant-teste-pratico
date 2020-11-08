@@ -14,6 +14,10 @@
     </head>
     <body>
         <div id="UIConsumoAPI">
+            <fieldset v-if="avisoMsg">
+                <legend>Aviso!</legend>
+                <h3> @{{ avisoMsg }}</h3>
+            </fieldset>
             <form @submit.prevent="store()" method="post">
                 <fieldset>
                     <legend>Adicionar Funcionário</legend>
@@ -37,12 +41,12 @@
                 <ol>
                     <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} 
                         <button @click="destroy(funcionario.id)">Excluir</button> 
-                        <button @click="show(funcionario.id)">Editar</button>
+                        <button @click="show(funcionario.id);">Editar</button>
                         <hr>
                     </li>
                 </ol>
             </fieldset>
-            <form @submit.prevent="update(formEdit.id)" method="post">
+            <form @submit.prevent="update(formEdit.id)" method="post" id="editForm">
                 <fieldset>
                     <legend>Editar Funcionário</legend>
                     <label for="">Nome</label> <br>
@@ -75,10 +79,17 @@
             el: '#UIConsumoAPI',
             data: {
                 funcionarios: [],
+                avisoMsg: null,
                 formAdd: formObj,
                 formEdit: formObj
             },
             methods: {
+                toggleAvisoFieldSet(message){
+                    this.avisoMsg = message;
+                    setTimeout(() => {
+                        this.avisoMsg = false;
+                    }, 4000);
+                },
                 store(){
                     fetch("{{route('funcionarios.store')}}", {
                         method: 'POST',
@@ -93,6 +104,7 @@
                     .then((response) => {
                         //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
                         response.json().then(this.index());
+                        this.toggleAvisoFieldSet('Funcionário criado');
                     });
                 },
                 destroy(id){
@@ -102,6 +114,7 @@
                     .then((response) => {
                         //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
                         response.json().then(this.index());
+                        this.toggleAvisoFieldSet('Funcionário excluído');
                     });
                 },
                 index(){
@@ -119,6 +132,7 @@
                         response.json().then(funcionario => {
                             this.formEdit = funcionario;
                         });
+                       
                     });
                 },
                 update(id){
@@ -135,6 +149,7 @@
                     .then((response) => {
                         //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
                         response.json().then(this.index());
+                        this.toggleAvisoFieldSet('Funcionário atualizado');
                     });
                 }
             },
