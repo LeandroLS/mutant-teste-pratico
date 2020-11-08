@@ -18,13 +18,13 @@
                 <fieldset>
                     <legend>Adicionar Funcionário</legend>
                     <label for="">Nome</label> <br>
-                    <input name="nome" v-model="form.nome" required type="text">  <br>
+                    <input name="nome" v-model="formAdd.nome" required type="text">  <br>
                     <label for="">E-mail</label>  <br>
-                    <input name="email"  v-model="form.email" required type="email">  <br>
+                    <input name="email"  v-model="formAdd.email" required type="email">  <br>
                     <label for="">Data Admissao</label>  <br>
-                    <input name="data_admissao"required v-model="form.data_admissao" type="date">  <br>
+                    <input name="data_admissao"required v-model="formAdd.data_admissao" type="date">  <br>
                     <label for="">Sexo</label>  <br>
-                    <select name="sexo" v-model="form.sexo" required id="">  <br>
+                    <select name="sexo" v-model="formAdd.sexo" required id="">  <br>
                         <option value="">Selecione</option>
                         <option value="Feminino">Feminino</option>
                         <option value="Masculino">Masculino</option>
@@ -32,28 +32,48 @@
                     <button type="submit">Adicionar</button>
                 </fieldset>
             </form>
-       
-              <fieldset>
+            <fieldset>
                 <legend>Lista de funcionários</legend>
                 <ol>
-                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} <button @click="destroy(funcionario.id)">Excluir</button><hr></li>
-                   
+                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} 
+                        <button @click="destroy(funcionario.id)">Excluir</button> 
+                        <button @click="show(funcionario.id)">Editar</button>
+                        <hr>
+                    </li>
                 </ol>
+            </fieldset>
+            <fieldset>
+                <legend>Editar Funcionário</legend>
+                <label for="">Nome</label> <br>
+                <input name="nome" v-model="formEdit.nome" required type="text">  <br>
+                <label for="">E-mail</label>  <br>
+                <input name="email"  v-model="formEdit.email" required type="email">  <br>
+                <label for="">Data Admissao</label>  <br>
+                <input name="data_admissao"required v-model="formEdit.data_admissao" type="date">  <br>
+                <label for="">Sexo</label>  <br>
+                <select name="sexo" v-model="formEdit.sexo" required id="">  <br>
+                    <option value="">Selecione</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Masculino">Masculino</option>
+                </select> <br>
+                <button type="submit">Editar</button>
             </fieldset>
         </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
+        let formObj = {
+            nome: '',
+            data_admissao: '',
+            sexo: '',
+            email: ''
+        };
         let vue = new Vue({
             el: '#UIConsumoAPI',
             data: {
                 funcionarios: [],
-                form: {
-                    nome: '',
-                    data_admissao: '',
-                    sexo: '',
-                    email: ''
-                }
+                formAdd: formObj,
+                formEdit: formObj
             },
             methods: {
                 store(){
@@ -61,10 +81,10 @@
                         method: 'POST',
                         headers: new Headers({'Content-Type': 'application/json'}),
                         body: JSON.stringify({ 
-                            nome : this.form.nome,
-                            data_admissao : this.form.data_admissao,
-                            sexo : this.form.sexo,
-                            email : this.form.email,
+                            nome : this.formAdd.nome,
+                            data_admissao : this.formAdd.data_admissao,
+                            sexo : this.formAdd.sexo,
+                            email : this.formAdd.email,
                         })
                     })
                     .then((response) => {
@@ -85,6 +105,17 @@
                     fetch("{{route('funcionarios.index')}}")
                     .then((response) => {
                         response.json().then(data => this.funcionarios = data);
+                    });
+                },
+                show(id){
+                    fetch(`/api/funcionarios/${id}`, {
+                        method: 'GET',
+                    })
+                    .then((response) => {
+                        //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
+                        response.json().then(funcionario => {
+                            this.formEdit = funcionario;
+                        });
                     });
                 }
             },
