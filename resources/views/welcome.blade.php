@@ -14,24 +14,25 @@
     </head>
     <body>
         <div id="UIConsumoAPI">
-            <form action="{{ route('funcionarios.store') }}" method="post">
+            <form action="{{ route('funcionarios.store') }}" @submit.prevent="store()" method="post">
                 <fieldset>
                     <legend>Adicionar Funcionário</legend>
                     <label for="">Nome</label> <br>
-                    <input name="nome" type="text">  <br>
+                    <input name="nome" v-model="form.nome" required type="text">  <br>
                     <label for="">E-mail</label>  <br>
-                    <input name="email" type="email">  <br>
+                    <input name="email"  v-model="form.email" required type="email">  <br>
                     <label for="">Data Admissao</label>  <br>
-                    <input name="data_admissao" type="date">  <br>
+                    <input name="data_admissao"required v-model="form.data_admissao" type="date">  <br>
                     <label for="">Sexo</label>  <br>
-                    <select name="sexo" id="">  <br>
+                    <select name="sexo" v-model="form.sexo" required id="">  <br>
                         <option value="">Selecione</option>
                         <option value="Feminino">Feminino</option>
                         <option value="Masculino">Masculino</option>
                     </select> <br>
-                    <button>Adicionar</button>
+                    <button type="submit">Adicionar</button>
                 </fieldset>
             </form>
+       
               <fieldset>
                 <legend>Lista de funcionários</legend>
                 <ol>
@@ -46,13 +47,34 @@
         let vue = new Vue({
             el: '#UIConsumoAPI',
             data: {
-                funcionarios: []
+                funcionarios: [],
+                form: {
+                    nome: '',
+                    data_admissao: '',
+                    sexo: '',
+                    email: ''
+                }
             },
             methods: {
+                store(){
+                    fetch("{{route('funcionarios.store')}}", {
+                        method: 'POST',
+                        headers: new Headers({'Content-Type': 'application/json'}),
+                        body: JSON.stringify({ 
+                            nome : this.form.nome,
+                            data_admissao : this.form.data_admissao,
+                            sexo : this.form.sexo,
+                            email : this.form.email,
+                        })
+                    })
+                    .then((response) => {
+                        //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
+                        response.json().then(this.index());
+                    });
+                },
                 destroy(id){
                     fetch(`/api/funcionarios/${id}`, {
                         method: 'DELETE',
-                        body: { id : id }
                     })
                     .then((response) => {
                         //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
