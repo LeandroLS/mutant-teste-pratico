@@ -35,7 +35,7 @@
               <fieldset>
                 <legend>Lista de funcionários</legend>
                 <ol>
-                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}}<hr></li>
+                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} <button @click="destroy(funcionario.id)">Excluir</button><hr></li>
                    
                 </ol>
             </fieldset>
@@ -48,11 +48,26 @@
             data: {
                 funcionarios: []
             },
+            methods: {
+                destroy(id){
+                    fetch(`/api/funcionarios/${id}`, {
+                        method: 'DELETE',
+                        body: { id : id }
+                    })
+                    .then((response) => {
+                        //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
+                        response.json().then(this.index());
+                    });
+                },
+                index(){
+                    fetch("{{route('funcionarios.index')}}")
+                    .then((response) => {
+                        response.json().then(data => this.funcionarios = data);
+                    });
+                }
+            },
             created(){
-                fetch("{{route('funcionarios.index')}}")
-                .then((response) => {
-                    response.json().then(data => this.funcionarios = data);
-                });
+                this.index();
             }
         });
     </script>
