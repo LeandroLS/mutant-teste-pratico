@@ -21,4 +21,4 @@ Route::get('/funcionarios', [FuncionarioController::class, 'index'] )->name('fun
 Route::post('/funcionarios', [FuncionarioController::class, 'store'] )->name('funcionarios.store');
 Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] )->name('funcionarios.show');
 Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy'] )->name('funcionarios.destroy');
-Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'] )->name('funcionario.update');
+Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'] )->name('funcionarios.update');

@@ -14,7 +14,7 @@
     </head>
     <body>
         <div id="UIConsumoAPI">
-            <form action="{{ route('funcionarios.store') }}" @submit.prevent="store()" method="post">
+            <form @submit.prevent="store()" method="post">
                 <fieldset>
                     <legend>Adicionar Funcionário</legend>
                     <label for="">Nome</label> <br>
@@ -42,27 +42,30 @@
                     </li>
                 </ol>
             </fieldset>
-            <fieldset>
-                <legend>Editar Funcionário</legend>
-                <label for="">Nome</label> <br>
-                <input name="nome" v-model="formEdit.nome" required type="text">  <br>
-                <label for="">E-mail</label>  <br>
-                <input name="email"  v-model="formEdit.email" required type="email">  <br>
-                <label for="">Data Admissao</label>  <br>
-                <input name="data_admissao"required v-model="formEdit.data_admissao" type="date">  <br>
-                <label for="">Sexo</label>  <br>
-                <select name="sexo" v-model="formEdit.sexo" required id="">  <br>
-                    <option value="">Selecione</option>
-                    <option value="Feminino">Feminino</option>
-                    <option value="Masculino">Masculino</option>
-                </select> <br>
-                <button type="submit">Editar</button>
-            </fieldset>
+            <form @submit.prevent="update(formEdit.id)" method="post">
+                <fieldset>
+                    <legend>Editar Funcionário</legend>
+                    <label for="">Nome</label> <br>
+                    <input name="nome" v-model="formEdit.nome" required type="text">  <br>
+                    <label for="">E-mail</label>  <br>
+                    <input name="email"  v-model="formEdit.email" required type="email">  <br>
+                    <label for="">Data Admissao</label>  <br>
+                    <input name="data_admissao"required v-model="formEdit.data_admissao" type="date">  <br>
+                    <label for="">Sexo</label>  <br>
+                    <select name="sexo" v-model="formEdit.sexo" required id="">  <br>
+                        <option value="">Selecione</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                    </select> <br>
+                    <button type="submit">Editar</button>
+                </fieldset>
+            </form>
         </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
         let formObj = {
+            id: null,
             nome: '',
             data_admissao: '',
             sexo: '',
@@ -116,6 +119,22 @@
                         response.json().then(funcionario => {
                             this.formEdit = funcionario;
                         });
+                    });
+                },
+                update(id){
+                    fetch(`/api/funcionarios/${id}`, {
+                        method: 'PUT',
+                        headers: new Headers({'Content-Type': 'application/json'}),
+                        body: JSON.stringify({ 
+                            nome : this.formEdit.nome,
+                            data_admissao : this.formEdit.data_admissao,
+                            sexo : this.formEdit.sexo,
+                            email : this.formEdit.email,
+                        })
+                    })
+                    .then((response) => {
+                        //se a requisição der certo, refaz a lista de funcionários chamando a funcção index()
+                        response.json().then(this.index());
                     });
                 }
             },
