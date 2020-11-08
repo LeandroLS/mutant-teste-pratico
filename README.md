@@ -15,6 +15,11 @@ Crie uma nova conexão de banco de dados MySql com esses parâmetros:
 Configure a conexão com o banco de dados customizada do seu jeito atráves do arquivo .env do projeto.  
 Existe um .env.example para você se basear.
 
+#### Criando tabelas e semeando banco com dados de teste
+1. ```php artisan migrate```
+2. ```php artisan db:seed```
+
+
 #### Subindo API
 1. ```cd caminho/para/mutant-teste-pratico```
 2. ```php artisan serve```
