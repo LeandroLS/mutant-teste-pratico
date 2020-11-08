@@ -17,8 +17,8 @@ use App\Http\Controllers\FuncionarioController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('/funcionarios', [FuncionarioController::class, 'index'] );
-Route::post('/funcionarios', [FuncionarioController::class, 'store'] );
-Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] );
-Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy'] );
-Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'] );
+Route::get('/funcionarios', [FuncionarioController::class, 'index'] )->name('funcionarios.index');
+Route::post('/funcionarios', [FuncionarioController::class, 'store'] )->name('funcionarios.store');
+Route::get('/funcionarios/{id}', [FuncionarioController::class, 'show'] )->name('funcionarios.show');
+Route::delete('/funcionarios/{id}', [FuncionarioController::class, 'destroy'] )->name('funcionarios.destroy');
+Route::put('/funcionarios/{id}', [FuncionarioController::class, 'update'] )->name('funcionario.update');
