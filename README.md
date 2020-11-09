@@ -2,28 +2,33 @@
 Teste processo seletivo Mutant. Vaga PHP.
 
 ## Iniciando API  
+
+#### Subindo API
+1. ```cd caminho/para/mutant-teste-pratico```
+2. ```composer install```
+3. ```criar arquivo .env (já tem um .env.example pra se basear)```
+4. ```php artisan key:generate```
+5. ```php artisan serve```
+
 #### Estabelecendo Conexão com Banco de Dados MySql  
+
 ##### Opção 1  
-Crie uma nova conexão de banco de dados MySql com esses parâmetros:  
+Configure a conexão com o banco de dados customizada do seu jeito atráves do arquivo .env do projeto.  
+Existe um .env.example para você se basear.
+
+##### Opção 2  
+Se você não configurar a conexão com o banco de dados via .env, você deve criar uma nova conexão de banco de dados MySql com esses parâmetros:  
 - host: 127.0.0.1
 - porta: 3306
 - nome banco: mutant-teste-pratico
 - usuario: root
 - senha: 123456
 
-##### Opção 2  
-Configure a conexão com o banco de dados customizada do seu jeito atráves do arquivo .env do projeto.  
-Existe um .env.example para você se basear.
-
 #### Criando tabelas e semeando banco com dados de teste
 1. ```php artisan migrate```
 2. ```php artisan db:seed```
-
-
-#### Subindo API
-1. ```cd caminho/para/mutant-teste-pratico```
-2. ```php artisan serve```
 ---
+
 #### RESTful API
 A RESTful API para o teste é descrita abaixo.
 
