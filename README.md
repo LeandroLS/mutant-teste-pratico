@@ -99,3 +99,6 @@ Remove um funcionário
 - Status Code: 404
 - Conteúdo: ```Funcionário não encontrado.```
 ---
+#### Executando testes
+1. ```cd caminho/para/mutant-teste-pratico```
+2. ```.\vendor\bin\phpunit```
