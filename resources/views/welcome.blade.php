@@ -14,11 +14,11 @@
     </head>
     <body>
         <div id="UIConsumoAPI">
-            <fieldset v-if="avisoMsg">
+            <fieldset id="avisoMsg" v-show="avisoMsg">
                 <legend>Aviso!</legend>
                 <h3> @{{ avisoMsg }}</h3>
             </fieldset>
-            <form @submit.prevent="store()" method="post">
+            <form @submit.prevent="store()" method="post" style="width:50%; float:left">
                 <fieldset>
                     <legend>Adicionar Funcionário</legend>
                     <label for="">Nome</label> <br>
@@ -36,18 +36,8 @@
                     <button type="submit">Adicionar</button>
                 </fieldset>
             </form>
-            <fieldset>
-                <legend>Lista de funcionários</legend>
-                <ol>
-                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} 
-                        <button @click="destroy(funcionario.id)">Excluir</button> 
-                        <button @click="show(funcionario.id);">Editar</button>
-                        <hr>
-                    </li>
-                </ol>
-            </fieldset>
-            <form @submit.prevent="update(formEdit.id)" method="post" id="editForm">
-                <fieldset>
+            <form @submit.prevent="update(formEdit.id)" style="width:50%; float:right" method="post" id="editForm">
+                <fieldset  >
                     <legend>Editar Funcionário</legend>
                     <label for="">Nome</label> <br>
                     <input name="nome" v-model="formEdit.nome" required type="text">  <br>
@@ -64,6 +54,17 @@
                     <button type="submit">Editar</button>
                 </fieldset>
             </form>
+            <fieldset>
+                <legend>Lista de funcionários</legend>
+                <ol>
+                    <li v-for='funcionario in funcionarios'> Nome: @{{funcionario.nome}} Email: @{{funcionario.email}} Admissao: @{{funcionario.data_admissao}} Sexo: @{{funcionario.sexo}} 
+                        <button @click="destroy(funcionario.id)">Excluir</button> 
+                        <button type="button" @click="show(funcionario.id);">Editar</button>
+                        <hr>
+                    </li>
+                </ol>
+            </fieldset>
+           
         </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
